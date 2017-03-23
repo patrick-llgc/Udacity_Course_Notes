@@ -1,2 +1,2 @@
-# Udacity_Course_Notes
-Course Notes and Scripts from Udacity
+# Udacity Course Notes
+Course notes and scripts from Udacity
