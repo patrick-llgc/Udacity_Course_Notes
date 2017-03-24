@@ -24,10 +24,13 @@ output = forward_pass(f, sorted_neurons)
 
 print("{} + {} = {} (according to miniflow)".format(feed_dict[x], feed_dict[y], output))
 
-# bonus quiz
-node_output = Input()
-f2 = Add(node_output, y)
-feed_dict2 = {node_output: output, y: 5}
-sorted_neurons = topological_sort(feed_dict2)
-output2 = forward_pass(f2, sorted_neurons)
-print("({} + {}) + {} = {} (according to miniflow)".format(feed_dict[x], feed_dict[y], feed_dict[y], output2))
+
+# bous quiz
+# the output neuron can be as constructed to a complex level
+# but the feed_dict should only contain the input neurons
+f3 = Add(Add(x, y), y)
+sorted_neurons = topological_sort(feed_dict)
+output = forward_pass(f3, sorted_neurons)
+print("({} + {}) + {} = {} (according to miniflow)".format(
+    feed_dict[x], feed_dict[y], feed_dict[y], output))
+
