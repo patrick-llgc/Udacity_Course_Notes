@@ -58,23 +58,50 @@ class Input(Neuron):
             self.value = value
 
 
-class Add(Neuron):
+class Add_pair(Neuron):
+    """This class only takes in two nodes"""
     def __init__(self, x, y):
         Neuron.__init__(self, [x, y])
 
     def forward(self):
         """
         Set the value of this neuron to the sum of it's inbound_nodes.
-        
-        Your code here!
         """
         self.value = self.inbound_neurons[0].value + self.inbound_neurons[1].value
 
-
 """
-No need to change anything below here!
-"""
+Can you augment the Add class so that it acceptsany number of neurons as input?
 
+Hint: this may be useful:
+https://docs.python.org/3/tutorial/controlflow.html#unpacking-argument-lists
+"""
+class Add(Neuron):
+    def __init__(self, *args):
+        # LLGC: args is a list, and Neuron.__init__() takes in a list
+        #       no need to unpack
+        Neuron.__init__(self, args)
+        
+
+    def forward(self):
+        # x_value = self.inbound_neurons[0].value
+        # y_value = self.inbound_neurons[1].value
+        # self.value = x_value + y_value
+        inbound_neuron_values = [neuron.value for neuron in self.inbound_neurons]
+        self.value = sum(inbound_neuron_values)
+
+class Linear(Neuron):
+    def __init__(self, inputs, weights, bias):
+        Neuron.__init__(self, inputs)
+        self.inbound_weights = weights
+        # make sure the number of weights matches the number of neurons
+        assert len(self.inbound_weights) == len(self.inbound_neurons)
+        self.inbound_bias = bias
+
+    def forward(self):
+        self.value = self.inbound_bias.value
+        self.value += sum(n.value * w.value for n, w 
+            in zip(self.inbound_neurons, self.inbound_weights))
+        
 
 def topological_sort(feed_dict):
     """
